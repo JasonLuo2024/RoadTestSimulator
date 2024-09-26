@@ -1,14 +1,13 @@
 <template>
-  <div class="game-container overflow-hidden">
+  <div
+    class="flex justify-center items-center overflow-hidden w-screen h-screen"
+  >
     <canvas
-      ref="gameCanvas"
+      id="gameCanvas"
+      class="border-2"
       :width="canvasWidth"
       :height="canvasHeight"
     ></canvas>
-    <div
-      v-if="failed"
-      class="failed-message"
-    >Failed</div>
   </div>
 </template>
 
@@ -24,8 +23,14 @@ const car = {
   height: 100, // Adjust based on the image size
   x: canvasWidth / 2 - 25,
   y: canvasHeight / 2 - 50, // Start in the center of the canvas
-  speed: 5,
+  speed: 0.5,
   angle: -Math.PI / 2, // Set initial angle so the car points upwards
+};
+
+// Initial center position
+const initialCarPosition = {
+  x: canvasWidth / 2 - 25,
+  y: canvasHeight / 2 - 50,
 };
 
 const keys = {
@@ -67,18 +72,22 @@ const getCarCorners = (x, y, angle) => {
   }));
 };
 
-// Function to check if all car's corners are within the boundaries
-const isWithinBoundary = (newX, newY, angle) => {
-  const corners = getCarCorners(newX, newY, angle); // Get rotated corners
+const margin = 100; // Adjust this value to increase or decrease the margin space
 
-  // Check if all corners are inside the canvas
-  return corners.every(
-    (corner) =>
-      corner.x >= 0 &&
-      corner.x <= canvasWidth &&
-      corner.y >= 0 &&
-      corner.y <= canvasHeight
+const isOutOfBoundary = (x, y) => {
+  return (
+    x < -margin ||
+    x + car.width > canvasWidth + margin ||
+    y < -margin ||
+    y + car.height > canvasHeight + margin
   );
+};
+
+// Function to reset the car position to the center of the canvas
+const resetCarPosition = () => {
+  car.x = initialCarPosition.x;
+  car.y = initialCarPosition.y;
+  car.angle = -Math.PI / 2; // Reset the angle
 };
 
 // Function to move the car in the direction it is facing
@@ -90,34 +99,30 @@ const moveCar = () => {
   const newYBackward = car.y - car.speed * Math.sin(car.angle);
 
   // Move forward (towards the head of the car)
-  if (keys.ArrowUp && isWithinBoundary(newXForward, newYForward, car.angle)) {
+  if (keys.ArrowUp) {
     car.x = newXForward;
     car.y = newYForward;
   }
 
   // Move backward (towards the rear of the car)
-  if (
-    keys.ArrowDown &&
-    isWithinBoundary(newXBackward, newYBackward, car.angle)
-  ) {
+  if (keys.ArrowDown) {
     car.x = newXBackward;
     car.y = newYBackward;
   }
 
   // Rotate the car left (counter-clockwise)
   if (keys.ArrowLeft) {
-    const newAngle = car.angle - 0.05;
-    if (isWithinBoundary(car.x, car.y, newAngle)) {
-      car.angle = newAngle;
-    }
+    car.angle -= 0.01;
   }
 
   // Rotate the car right (clockwise)
   if (keys.ArrowRight) {
-    const newAngle = car.angle + 0.05;
-    if (isWithinBoundary(car.x, car.y, newAngle)) {
-      car.angle = newAngle;
-    }
+    car.angle += 0.01;
+  }
+
+  // If the car goes out of bounds, reset its position to the center
+  if (isOutOfBoundary(car.x, car.y)) {
+    resetCarPosition();
   }
 };
 
@@ -178,16 +183,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.game-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-  background-color: #f0f0f0;
-}
-
-canvas {
-  border: 2px solid black;
-  background-color: white;
+#gameCanvas {
+  background-image: url("~/assets/background.png"); /* Path to your image */
+  background-size: cover; /* Cover the entire canvas */
+  background-position: center; /* Center the background image */
 }
 </style>
