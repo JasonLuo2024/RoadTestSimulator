@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (max-width: 932px) {
+  .content-wrapper {
+    transform: scale(0.5);
+    transform-origin: top left;
+    width: calc(100% / 0.5);
+    height: calc(100% / 0.5);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto calc(-11100px * (1 - 0.8));
+  }
+}
+
+@media (min-width: 933px) and (max-width: 1470px) {
+  .content-wrapper {
+    transform: scale(0.75);
+    transform-origin: top left;
+    width: calc(100% / 0.75);
+    height: calc(100% / 0.75);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto calc(-6000px * (1 - 0.8));
+  }
+}
+
+@media (min-width: 1471px) and (max-width: 1600px) {
+  .content-wrapper {
+    transform: scale(0.85);
+    transform-origin: top left;
+    width: calc(100% / 0.85);
+    height: calc(100% / 0.85);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto calc(-6000px * (1 - 0.8));
+  }
+}
+
+/* Desktop Screens */
+@media (min-width: 1601px) and (max-width: 1800px) {
+  .content-wrapper {
+    transform: scale(0.875);
+    transform-origin: top left;
+    width: calc(100% / 0.875);
+    height: calc(100% / 0.875);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto calc(-6000px * (1 - 0.8));
+  }
+}
+
+/* Large Desktops */
+@media (min-width: 1801px) and (max-width: 1920px) {
+  .content-wrapper {
+    transform: scale(0.9);
+    transform-origin: top left;
+    width: calc(100% / 0.9);
+    height: calc(100% / 0.9);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto calc(-6000px * (1 - 0.8));
+  }
+}
+
+/* Ultra-Wide Screens - Resolutions larger than 27 inches */
+@media (min-width: 1921px) and (max-width: 2200px) {
+  .content-wrapper {
+    zoom: 0.9;
+    transform: scale(0.92);
+    transform-origin: top left;
+    width: calc(100% / 0.92);
+    height: calc(100% / 0.92);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto calc(-6000px * (1 - 0.8));
+  }
+}
+
+/* Larger Ultra-Wide Screens */
+@media (min-width: 2201px) and (max-width: 2560px) {
+  .content-wrapper {
+    zoom: 0.93;
+    transform: scale(0.93);
+    transform-origin: top left;
+    width: calc(100% / 0.93);
+    height: calc(100% / 0.93);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto calc(-6000px * (1 - 0.8));
+  }
+}
+
+/* Extra Large Screens - Resolutions larger than 32 inches */
+@media (min-width: 2561px) {
+  .content-wrapper {
+    transform: scale(1);
+    transform-origin: top left;
+    width: calc(100% / 1);
+    height: calc(100% / 1);
+    overflow: hidden;
+    position: relative;
+  }
+}
