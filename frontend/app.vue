@@ -22,8 +22,7 @@
       <div class="grid grid-cols-3 gap-2 items-center justify-items-center">
         <div class="col-span-3 flex justify-center">
           <button
-            @mousedown="simulateKeyDown('ArrowUp')"
-            @mouseup="simulateKeyUp('ArrowUp')"
+            @click="mimicKeyPress('ArrowUp')"
             class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-blue-600 active:bg-blue-700 transition-transform transform active:scale-95"
           >
             <i class="fas fa-arrow-up"></i>
@@ -45,8 +44,7 @@
         </button>
         <div class="col-span-3 flex justify-center">
           <button
-            @mousedown="simulateKeyDown('ArrowDown')"
-            @mouseup="simulateKeyUp('ArrowDown')"
+            @click="mimicKeyPress('ArrowDown')"
             class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-blue-600 active:bg-blue-700 transition-transform transform active:scale-95"
           >
             <i class="fas fa-arrow-down"></i>
@@ -276,15 +274,27 @@ const gameLoop = (ctx) => {
   requestAnimationFrame(() => gameLoop(ctx));
 };
 
-const simulateKeyDown = (key) => {
-  const event = new KeyboardEvent("keydown", { key: key });
-  window.dispatchEvent(event);
+const mimicKeyPress = (key) => {
+  simulateKeyDown(key);
+
+  // Simulate keyup after a short delay to mimic a single press
+  setTimeout(() => {
+    simulateKeyUp(key);
+  }, 100); // Adjust the delay time as needed
 };
 
-// Simulate keyup event
-const simulateKeyUp = (key) => {
-  const event = new KeyboardEvent("keyup", { key: key });
+// Simulate key down event
+const simulateKeyDown = (key) => {
+  const event = new KeyboardEvent("keydown", { key });
   window.dispatchEvent(event);
+  console.log(`${key} key down`);
+};
+
+// Simulate key up event
+const simulateKeyUp = (key) => {
+  const event = new KeyboardEvent("keyup", { key });
+  window.dispatchEvent(event);
+  console.log(`${key} key up`);
 };
 
 onMounted(() => {
