@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col justify-center items-center overflow-hidden content-wrapper"
+    class="h-screen w-screen flex flex-col justify-center items-center overflow-hidden bg-[#e6e5de]"
   >
     <link
       rel="stylesheet"
@@ -12,124 +12,119 @@
       <!-- Game Canvas -->
       <canvas
         id="gameCanvas"
-        class="border-2"
         :width="canvasWidth"
         :height="canvasHeight"
       ></canvas>
+    </div>
 
-      <div class="flex flex-col">
-        <div>
-          <!-- Buttons for controlling the wheel angle -->
-          <div class="flex space-x-4 justify-center mt-2">
-            <button
-              @click="decreaseAngle"
-              class="bg-red-500 text-white py-1 px-3 rounded"
-            >
-              <i class="fas fa-arrow-left"></i> Turn Left
-            </button>
-            <button
-              @click="increaseAngle"
-              class="bg-green-500 text-white py-1 px-3 rounded"
-            >
-              Turn Right <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Buttons for mimicking arrow key events -->
-          <div class="flex space-x-4 justify-center mt-2">
-            <button
-              @mousedown="simulateKeyDown('ArrowUp')"
-              @mouseup="simulateKeyUp('ArrowUp')"
-              class="bg-blue-500 text-white py-1 px-3 rounded"
-            >
-              <i class="fas fa-arrow-up"></i> Mimic Arrow Up
-            </button>
-            <button
-              @mousedown="simulateKeyDown('ArrowDown')"
-              @mouseup="simulateKeyUp('ArrowDown')"
-              class="bg-blue-500 text-white py-1 px-3 rounded"
-            >
-              Mimic Arrow Down <i class="fas fa-arrow-down"></i>
-            </button>
-          </div>
+    <div class="flex flex-col items-center space-y-4">
+      <!-- Directional Control Pad -->
+      <div class="grid grid-cols-3 gap-2 items-center justify-items-center">
+        <div class="col-span-3 flex justify-center">
+          <button
+            @mousedown="simulateKeyDown('ArrowUp')"
+            @mouseup="simulateKeyUp('ArrowUp')"
+            class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-blue-600 active:bg-blue-700 transition-transform transform active:scale-95"
+          >
+            <i class="fas fa-arrow-up"></i>
+          </button>
         </div>
-        <div class="p-4 bg-gray-400 text-white border rounded shadow-md">
-          <h2 class="text-lg font-bold">Steering Control Panel</h2>
+        <button
+          @click="decreaseAngle"
+          class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-red-600 active:bg-red-700 transition-transform transform active:scale-95"
+        >
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div></div>
+        <!-- Center space for aesthetic or logo -->
+        <button
+          @click="increaseAngle"
+          class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-green-600 active:bg-green-700 transition-transform transform active:scale-95"
+        >
+          <i class="fas fa-arrow-right"></i>
+        </button>
+        <div class="col-span-3 flex justify-center">
+          <button
+            @mousedown="simulateKeyDown('ArrowDown')"
+            @mouseup="simulateKeyUp('ArrowDown')"
+            class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-blue-600 active:bg-blue-700 transition-transform transform active:scale-95"
+          >
+            <i class="fas fa-arrow-down"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
-          <!-- Interactive Steering Wheel Angle Gauge -->
-          <div class="flex justify-center items-center mt-4">
-            <svg width="300" height="150" viewBox="0 0 300 150" class="gauge">
-              <!-- Outer arc -->
-              <path
-                d="M 10 140 A 130 130 0 0 1 290 140"
-                fill="none"
-                stroke="white"
-                stroke-width="2"
-              />
-              <!-- Tick marks and numbers -->
-              <g transform="translate(150, 140)">
-                <line
-                  x1="0"
-                  y1="-130"
-                  x2="0"
-                  y2="-110"
-                  stroke="white"
-                  stroke-width="2"
-                />
-                <text
-                  x="0"
-                  y="-120"
-                  fill="white"
-                  font-size="10"
-                  text-anchor="middle"
-                >
-                  0
-                </text>
-                <!-- Custom ticks for the specified range -->
-                <g
-                  v-for="tick in 21"
-                  :key="tick"
-                  :transform="`rotate(${(tick - 10) * 9})`"
-                >
-                  <line
-                    x1="0"
-                    y1="-130"
-                    x2="0"
-                    y2="-120"
-                    stroke="white"
-                    stroke-width="1.5"
-                  />
-                  <text
-                    v-if="tick % 5 === 0"
-                    x="0"
-                    y="-112"
-                    fill="white"
-                    font-size="8"
-                    text-anchor="middle"
-                    :transform="`rotate(${-((tick - 10) * 9)})`"
-                  >
-                    {{ (tick - 10) * 0.0001 }}
-                  </text>
-                </g>
-              </g>
-              <!-- Needle to indicate the wheel angle -->
+    <div class="bg-gray-400 text-white border rounded shadow-md">
+      <!-- Interactive Steering Wheel Angle Gauge -->
+      <div class="flex justify-center items-center mt-4">
+        <svg width="300" height="100" viewBox="0 0 300 150" class="gauge">
+          <!-- Outer arc -->
+          <path
+            d="M 10 140 A 130 130 0 0 1 290 140"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+          />
+          <!-- Tick marks and numbers -->
+          <g transform="translate(150, 140)">
+            <line
+              x1="0"
+              y1="-130"
+              x2="0"
+              y2="-110"
+              stroke="white"
+              stroke-width="2"
+            />
+            <text
+              x="0"
+              y="-120"
+              fill="white"
+              font-size="10"
+              text-anchor="middle"
+            >
+              0
+            </text>
+            <!-- Custom ticks for the specified range -->
+            <g
+              v-for="tick in 21"
+              :key="tick"
+              :transform="`rotate(${(tick - 10) * 9})`"
+            >
               <line
-                :transform="
-                  'translate(150, 140) rotate(' + wheels_angle * 9000 + ')'
-                "
                 x1="0"
-                y1="0"
+                y1="-130"
                 x2="0"
                 y2="-120"
-                stroke="red"
-                stroke-width="2"
+                stroke="white"
+                stroke-width="1.5"
               />
-            </svg>
-          </div>
-          <p class="text-center mt-2">
-            Wheel Angle: {{ (wheels_angle * 9000).toFixed(3) }}°
-          </p>
-        </div>
+              <text
+                v-if="tick % 5 === 0"
+                x="0"
+                y="-112"
+                fill="white"
+                font-size="8"
+                text-anchor="middle"
+                :transform="`rotate(${-((tick - 10) * 9)})`"
+              >
+                {{ (tick - 10) * 0.0001 }}
+              </text>
+            </g>
+          </g>
+          <!-- Needle to indicate the wheel angle -->
+          <line
+            :transform="
+              'translate(150, 140) rotate(' + wheels_angle * 9000 + ')'
+            "
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="-120"
+            stroke="red"
+            stroke-width="2"
+          />
+        </svg>
       </div>
     </div>
   </div>
@@ -138,8 +133,8 @@
 import { onMounted, ref } from "vue";
 import vehicle from "~/assets/vehicle.png"; // Import vehicle image
 
-const canvasWidth = 800;
-const canvasHeight = 800;
+const canvasWidth = 400;
+const canvasHeight = 550;
 
 const wheels_angle = ref(0.0);
 
@@ -321,5 +316,6 @@ onMounted(() => {
   background-image: url("~/assets/background.png");
 
   background-position: center;
+  background-size: 400px 560px; /* Set the background size */
 }
 </style>
